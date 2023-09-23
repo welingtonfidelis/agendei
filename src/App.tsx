@@ -68,7 +68,8 @@ export const App = () => {
           position: "top-right",
           isClosable: true,
           duration: 5000,
-          status: 'success'
+          status: 'success',
+          containerStyle: { maxWidth: '300px'}
         },
       }}
     >
