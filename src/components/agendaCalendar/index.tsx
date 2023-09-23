@@ -9,7 +9,7 @@ import { Props } from "./types";
 import { useTranslation } from "react-i18next";
 
 export const AgendaCalendar = (props: Props) => {
-  const { events, defaultDate, onRangeChange, onSelectEvent, onSelectSlot } = props;
+  const { events, defaultDate = new Date(), onRangeChange, onSelectEvent, onSelectSlot } = props;
   const { t } = useTranslation();
 
   const locales = {
@@ -36,16 +36,18 @@ export const AgendaCalendar = (props: Props) => {
 
   return (
     <Calendar
-      localizer={localizer}
-      events={events}
+      selectable
       startAccessor="start"
       endAccessor="end"
-      selectable
+      defaultView="week"
+      dayLayoutAlgorithm="no-overlap"
+      showMultiDayTimes
+      localizer={localizer}
+      events={events}
+      defaultDate={defaultDate}
+      messages={messageTranslate}
       onSelectEvent={onSelectEvent}
       onSelectSlot={onSelectSlot}
-      messages={messageTranslate}
-      defaultView="week"
-      defaultDate={defaultDate}
       onRangeChange={onRangeChange}
     />
   );
