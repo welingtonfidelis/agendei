@@ -14,12 +14,17 @@ import {
 
 import logoImage from "../../assets/logo.png";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
-import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
 import { formValidate } from "./helper/formValidate";
 import { userStore } from "../../store/user";
 import { FormProps } from "./types";
 import { useLogin } from "../../services/requests/user";
-import { toast } from "react-toastify";
 import { responseErrorHandler } from "../../shared/handlers/responseError";
 import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
 
@@ -32,6 +37,7 @@ const initialFormValues = {
 };
 
 export const Login = () => {
+  const toast = useToast();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const validateFormFields = formValidate();
@@ -64,7 +70,11 @@ export const Login = () => {
           });
         }
 
-        toast.error(t("pages.login.error_request_message"));
+        toast({
+          title: t("pages.login.error_request_message"),
+          status: "error",
+          duration: null,
+        });
       },
     });
   };

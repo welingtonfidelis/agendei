@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
-import { toast } from "react-toastify";
 import {
   Avatar,
   Button,
@@ -10,6 +9,7 @@ import {
   FormLabel,
   Input,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 
 import {
@@ -43,6 +43,7 @@ export const Profile = (props: Props) => {
   const { updateProfile, isLoading: isUpdateLoading } = useUpdateProfile();
   const { refetch, data, isLoading } = useGetProfile();
   const validateFormFields = formValidate();
+  const toast = useToast();
 
   const initialFormValues = useMemo(() => {
     if (data) updateUser(data);
@@ -95,8 +96,12 @@ export const Profile = (props: Props) => {
 
     updateProfile(formData as any, {
       onSuccess() {
-        toast.success(t("components.profile.success_request_message"));
+        toast({
+          title: t("components.profile.success_request_message"),
+        });
+
         handleCloseModal();
+
         refetch();
       },
       onError(error) {
@@ -114,7 +119,10 @@ export const Profile = (props: Props) => {
           });
         }
 
-        toast.error(t("components.profile.error_request_message"));
+        toast({
+          title: t("components.profile.error_request_message"),
+          status: "error",
+        });
       },
     });
   };
