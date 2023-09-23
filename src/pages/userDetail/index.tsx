@@ -7,11 +7,6 @@ import {
   FormLabel,
   Input,
   Switch,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -41,7 +36,6 @@ import {
   FormContainer,
 } from "./styles";
 import { FormProps } from "./types";
-// import { toast } from "../../components/Toast";
 
 const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
 
