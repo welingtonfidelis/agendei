@@ -1,12 +1,12 @@
 export const FiltersType = {
-  START_DATE: 'startDate',
-  END_DATE: 'endDate',
+  START_DATE: 'start_date',
+  END_DATE: 'end_date',
 }
 
 export type State = {
   filters: {
-    startDate: Date;
-    endDate?: Date;
+    start_date: Date;
+    end_date?: Date;
   };
 };
 

@@ -5,8 +5,8 @@ export type AgendaEventEmpty = {
 
 export type AgendaEvent = {
   id: number;
-  client_name: string;
-  medical_specialty: string;
+  title: string;
+  detail: string;
   start: Date;
   end: Date;
 };
