@@ -1,21 +1,30 @@
 import { EmptyState } from "../../components/emptyState";
 import { Container } from "./styles";
 import { useCallback, useMemo, useState } from "react";
-import { ScheduleCalendar } from "../../components/scheduleCalendar";
+import { AgendaCalendar } from "../../components/agendaCalendar";
 import {
-  ScheduleCalendarEvent,
-  ScheduleCalendarEventEmpty,
-} from "../../domains/scheduleCalendarEvent";
+  AgendaEvent,
+  AgendaEventEmpty,
+} from "../../domains/agendaEvent";
+import { agendaPageStore } from "../../store/agendaListPage";
+import { useToast } from "@chakra-ui/react";
 
 export const Agenda = () => {
-  const [events, setEvents] = useState<ScheduleCalendarEvent[]>([]);
+  const [events, setEvents] = useState<AgendaEvent[]>([]);
+  const { filters, updateRangeDate } = agendaPageStore();
+  const toast = useToast();
+  // const { getQueryKey, data, isLoading, error } = useGetListUsers(filters);
 
-  const onSelectEvent = (event: ScheduleCalendarEvent) => {
+  if (true) {
+    toast({title: 'test', description: 'boaboba'})
+  }
+
+  const onSelectEvent = (event: AgendaEvent) => {
     const { title, end, start } = event;
     console.log("title, end, start :", title, end, start);
   };
 
-  const onSelectSlot = (event: ScheduleCalendarEventEmpty) => {
+  const onSelectSlot = (event: AgendaEventEmpty) => {
     const { start, end } = event;
 
     const title = window.prompt('New Event Name')
@@ -28,10 +37,12 @@ export const Agenda = () => {
 
   return (
     <Container>
-      <ScheduleCalendar
+      <AgendaCalendar
         events={events}
         onSelectEvent={onSelectEvent}
         onSelectSlot={onSelectSlot}
+        defaultDate={new Date()}
+        onRangeChange={updateRangeDate}
       />
       {/* <EmptyState /> */}
     </Container>

@@ -8,8 +8,8 @@ import { ptBR } from "date-fns/locale";
 import { Props } from "./types";
 import { useTranslation } from "react-i18next";
 
-export const ScheduleCalendar = (props: Props) => {
-  const { events, onSelectEvent, onSelectSlot } = props;
+export const AgendaCalendar = (props: Props) => {
+  const { events, defaultDate, onRangeChange, onSelectEvent, onSelectSlot } = props;
   const { t } = useTranslation();
 
   const locales = {
@@ -44,6 +44,9 @@ export const ScheduleCalendar = (props: Props) => {
       onSelectEvent={onSelectEvent}
       onSelectSlot={onSelectSlot}
       messages={messageTranslate}
+      defaultView="week"
+      defaultDate={defaultDate}
+      onRangeChange={onRangeChange}
     />
   );
 };
