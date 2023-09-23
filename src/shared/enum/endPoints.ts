@@ -14,5 +14,8 @@ export const EndPoints = {
   },
   PERMISSIONS: {
     LIST: "/permissions"
+  },
+  AGENDA: {
+    LIST: "/agenda"
   }
 }
