@@ -18,6 +18,7 @@ import { getProfile } from "./services/requests/user/apiRequests";
 import { ApplicationRoutes } from "./shared/enum/applicationRoutes";
 import { setDefaultOptions } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 
 const { ROOT } = ApplicationRoutes;
 

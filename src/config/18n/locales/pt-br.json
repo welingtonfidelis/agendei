@@ -50,6 +50,9 @@
       "calendar_action_week": "Semana",
       "calendar_action_day": "Dia",
       "calendar_action_agenda": "Agenda"
+    },
+    "date_picker": {
+      "time_label": "Horário"
     }
   },
   "pages": {
