@@ -7,7 +7,7 @@ export const light = {
     secondary: "#0A2E52", 
     tertiary: "#5B9AD9", 
 
-    separator:"#e2e8f0",
+    separator:"#CBD5E0",
 
     error: "#ec1111",
     success: "#0fc000",
