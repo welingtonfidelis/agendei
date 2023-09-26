@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import {
-  Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-  ModalFooter,
   useToast,
 } from "@chakra-ui/react";
 
