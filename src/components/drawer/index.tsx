@@ -22,6 +22,7 @@ export const Drawer = (props: PropsWithChildren<Props>) => {
     isOpen,
     onConfirmLoading,
     showActionButtons = true,
+    extraActionButton,
     onConfirm,
     onClose,
   } = props;
@@ -36,6 +37,7 @@ export const Drawer = (props: PropsWithChildren<Props>) => {
         <DrawerBody>{children}</DrawerBody>
         {showActionButtons && (
           <DrawerFooter>
+            {extraActionButton}
             <Button onClick={onClose} colorScheme="gray" marginEnd={"2"} type="submit">
               {onCloseButtonText || t("generic.button_cancel")}
             </Button>

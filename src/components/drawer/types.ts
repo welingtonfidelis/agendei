@@ -5,6 +5,7 @@ export interface Props {
     isOpen: boolean;
     onConfirmLoading?: boolean;
     showActionButtons?: boolean;
+    extraActionButton?: JSX.Element;
     onConfirm: () => void;
     onClose: () => void;
 }
