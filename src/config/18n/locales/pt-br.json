@@ -53,6 +53,14 @@
     },
     "date_picker": {
       "time_label": "Horário"
+    },
+    "event_detail": {
+      "page_new_tile": "Novo evento",
+      "page_edit_title": "Editar evento",
+      "input_title": "Título",
+      "input_description": "Descrição (opcional)",
+      "input_start_date": "Início",
+      "input_end_date": "Fim"
     }
   },
   "pages": {
@@ -149,6 +157,8 @@
     "button_back": "Voltar",
     "button_ok": "Ok",
     "button_send": "Enviar",
-    "required_input_value": "Campo obrigatório"
+    "required_input_value": "Campo obrigatório",
+    "update": "Editar",
+    "new_a": "Novo"
   }
 }
