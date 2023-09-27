@@ -1,8 +1,11 @@
 export type State = {
-  id?: number | null;
+  id?: number;
   isOpen: boolean;
+  start: Date;
+  end: Date;
 };
 
 export type Action = {
-  updateIsOpen: (e: { id?: number | null, isOpen: boolean }) => void;
+  openDetail: (e: State) => void;
+  closeDetail: () => void;
 };
