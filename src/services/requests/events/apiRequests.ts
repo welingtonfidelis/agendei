@@ -1,47 +1,56 @@
 import { EndPoints } from "../../../shared/enum/endPoints";
 import RestRequestService from "../api";
-import { AgendaListPayload, AgendaListResponse } from "./types";
+import {
+  AgendaListPayload,
+  AgendaListResponse,
+  CreateEventPayload,
+  DeleteEventPayload,
+  GetEventByIdPayload,
+  GetEventResponse,
+  UpdateEventPayload,
+} from "./types";
 
-const { LIST } = EndPoints.AGENDA;
+const { LIST, GET, CREATE, UPDATE, DELETE } = EndPoints.AGENDA;
 
 export const getAgendaList = async (params: AgendaListPayload) => {
-  // const { data: response } = await RestRequestService.get<AgendaListResponse>(
-  //   LIST,
-  //   { params }
-  // );
+  const { data: response } = await RestRequestService.get<AgendaListResponse>(
+    LIST,
+    { params }
+  );
+  return response;
+};
 
-  const response: AgendaListResponse = {
-    total: 5,
-    agenda: [
-      {
-        id: 1,
-        title: 'Olga',
-        detail: 'Geral',
-        start: new Date('2023-09-18T10:00:00.346Z'),
-        end: new Date('2023-09-18T11:00:00.346Z'),
-      },
-      {
-        id: 2,
-        title: 'Kely',
-        detail: 'Gravidinha',
-        start: new Date('2023-09-20T08:30:00.346Z'),
-        end: new Date('2023-09-20T09:00:00.346Z'),
-      },
-      {
-        id: 3,
-        title: 'Roberto',
-        detail: 'Geral',
-        start: new Date('2023-09-18T11:00:00.346Z'),
-        end: new Date('2023-09-18T11:30:00.346Z'),
-      },
-      {
-        id: 4,
-        title: 'Hellem',
-        detail: 'Dermatologista',
-        start: new Date('2023-09-22T14:30:00.346Z'),
-        end: new Date('2023-09-22T17:00:00.346Z'),
-      },
-    ]
-  }
+export const getEventById = async (params: GetEventByIdPayload) => {
+  const { id } = params;
+
+  if (!id) return;
+
+  const { data: response } = await RestRequestService.get<GetEventResponse>(
+    GET.replace(":id", String(id))
+  );
+  return response;
+};
+
+export const createEvent = async (payload: CreateEventPayload) => {
+  const { data: response } = await RestRequestService.post<{}>(CREATE, payload);
+  return response;
+};
+
+export const updateEvent = async (payload: UpdateEventPayload) => {
+  const { id } = payload;
+
+  const { data: response } = await RestRequestService.patch<{}>(
+    UPDATE.replace(":id", String(id)),
+    payload
+  );
+  return response;
+};
+
+export const deleteEvent = async (params: DeleteEventPayload) => {
+  const { id } = params;
+
+  const { data: response } = await RestRequestService.delete<{}>(
+    DELETE.replace(":id", String(id))
+  );
   return response;
 };

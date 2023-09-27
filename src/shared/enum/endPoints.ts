@@ -16,6 +16,10 @@ export const EndPoints = {
     LIST: "/permissions"
   },
   AGENDA: {
-    LIST: "/agenda"
+    LIST: "/agenda",
+    GET: "/agenda/:id",
+    CREATE: "/agenda",
+    UPDATE: "/agenda/:id",
+    DELETE: "/agenda/:id",
   }
 }
