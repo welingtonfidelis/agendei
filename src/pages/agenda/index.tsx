@@ -14,7 +14,7 @@ export const Agenda = () => {
   const { openDetail } = agendaDetailPageStore();
   const toast = useToast();
   const { t } = useTranslation();
-  const { getQueryKey, data, isLoading, error } = useGetAgendaList(filters);
+  const { data, isLoading, error } = useGetAgendaList(filters);
 
   if (error) {
     toast({
