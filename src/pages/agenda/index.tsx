@@ -6,40 +6,50 @@ import { useToast } from "@chakra-ui/react";
 import { useGetAgendaList } from "../../services/requests/events";
 import { EventDetail } from "./components/eventDetail";
 import { agendaDetailPageStore } from "../../store/agendaDetailPage";
+import { useTranslation } from "react-i18next";
+import { Preloader } from "../../components/preloader";
 
 export const Agenda = () => {
   const { filters, updateRangeDate } = agendaPageStore();
-  const { updateIsOpen } = agendaDetailPageStore();
+  const { openDetail } = agendaDetailPageStore();
   const toast = useToast();
+  const { t } = useTranslation();
   const { getQueryKey, data, isLoading, error } = useGetAgendaList(filters);
 
   if (error) {
-    toast({ title: "test", description: "boaboba" });
+    toast({
+      title: t(
+        "pages.update_reseted_password.error_request_list_events_message"
+      ),
+      status: "error",
+    });
   }
 
   const onSelectEvent = (event: AgendaEvent) => {
-    const { title, end, start } = event;
-    console.log("event :", event);
-    updateIsOpen({ id: event.id, isOpen: true });
+    const { end, start } = event;
+
+    openDetail({ id: event.id, isOpen: true, start, end });
   };
 
   const onSelectSlot = (event: AgendaEventEmpty) => {
     const { start, end } = event;
-    console.log("event :", event);
-    updateIsOpen({ id: null, isOpen: true });
+
+    openDetail({ id: 0, isOpen: true, start, end });
   };
 
   return (
     <Container>
-      <AgendaCalendar
-        events={data?.agenda ?? []}
-        onSelectEvent={onSelectEvent}
-        onSelectSlot={onSelectSlot}
-        defaultDate={new Date()}
-        onRangeChange={updateRangeDate}
-      />
+      <Preloader isLoading={isLoading}>
+        <AgendaCalendar
+          events={data?.agenda ?? []}
+          onSelectEvent={onSelectEvent}
+          onSelectSlot={onSelectSlot}
+          defaultDate={new Date()}
+          onRangeChange={updateRangeDate}
+        />
 
-      <EventDetail />
+        <EventDetail />
+      </Preloader>
     </Container>
   );
 };

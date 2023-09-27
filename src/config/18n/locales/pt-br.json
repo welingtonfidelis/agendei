@@ -60,7 +60,15 @@
       "input_title": "Título",
       "input_description": "Descrição (opcional)",
       "input_start_date": "Início",
-      "input_end_date": "Fim"
+      "input_end_date": "Fim",
+      "delete_event_message": "Você quer realmente excluir este evento?",
+      "error_request_get_event": "Houve um problema ao trazer os dados deste evento. Por favor, tente novamente.", 
+      "success_request_new_message": "Sucesso! Evento criado.",
+      "error_request_new_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
+      "success_request_edit_message": "Sucesso! Evento atualizado.",
+      "error_request_edit_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
+      "success_request_delete_message": "Sucesso! Evento excluído.",
+      "error_request_delete_message": "Algo deu errado. Por favor, verifique as informações e tente novamente."
     }
   },
   "pages": {
@@ -144,7 +152,7 @@
       "input_repeated_new_password": "Repita a nova senha",
       "input_repeated_new_password_invalid": "Senhas diferentes",
       "success_request_message": "Sucesso! Sua senha foi recuperada.",
-      "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente.",
+      "error_request_list_events_message": "Houve um problema ao trazer os eventos. Por favor, tente novamente.",
       "error_request_token_message": "Algo deu errado. Parece que seu token é inválido. Tente resetar sua senha novamente."
     }
   },
@@ -157,7 +165,9 @@
     "button_back": "Voltar",
     "button_ok": "Ok",
     "button_send": "Enviar",
+    "button_delete": "Excluir",
     "required_input_value": "Campo obrigatório",
+    "attention_message": "Atenção!",
     "update": "Editar",
     "new_a": "Novo"
   }

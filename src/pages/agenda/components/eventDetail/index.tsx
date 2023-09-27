@@ -2,6 +2,7 @@ import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import {
+  Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -10,87 +11,158 @@ import {
 } from "@chakra-ui/react";
 
 import { formValidate } from "./helper/formValidate";
-import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
 import { FormProps } from "./types";
-import { responseErrorHandler } from "../../../../shared/handlers/responseError";
 import { agendaDetailPageStore } from "../../../../store/agendaDetailPage";
 import { Drawer } from "../../../../components/drawer";
 import { Preloader } from "../../../../components/preloader";
 import { DatePicker } from "../../../../components/datePicker";
-
-const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
+import {
+  useCreateEvent,
+  useDeleteEvent,
+  useGetEventById,
+  useUpdateEvent,
+} from "../../../../services/requests/events";
+import { DeleteButtonContainer } from "./styles";
+import { Popover } from "../../../../components/popover";
 
 export const EventDetail = () => {
   const { t } = useTranslation();
   const validateFormFields = formValidate();
   const toast = useToast();
-  const { id, isOpen, updateIsOpen } = agendaDetailPageStore();
+  const { id, start, end, isOpen, closeDetail } = agendaDetailPageStore();
+  const { data, error, isLoading: isGetByIdLoading } = useGetEventById({ id });
+  const { createEvent, isLoading: isCreateLoading } = useCreateEvent();
+  const { updateEvent, isLoading: isUpdateLoading } = useUpdateEvent();
+  const { deleteEvent, isLoading: isDeleteLoading } = useDeleteEvent();
   const formRef = useRef<any>();
 
   const initialFormValues = useMemo(() => {
     return {
-      title: "test A",
-      detail: "testB",
-      start: new Date(),
-      end: new Date(),
+      title: data?.title ?? "",
+      detail: data?.detail ?? "",
+      start: data?.start ?? start,
+      end: data?.end ?? end,
     };
-  }, []);
+  }, [id, start, end]);
+
+  if (error) {
+    toast({
+      title: t("components.event_detail.error_request_get_event"),
+      status: "error",
+    });
+  }
 
   const handleCloseModal = () => {
-    updateIsOpen({ id: null, isOpen: false });
+    closeDetail();
   };
 
   const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    console.log("values :", values);
+    if (id) {
+      updateEvent(
+        { id: Number(id), data: values },
+        {
+          onSuccess() {
+            toast({
+              title: t("components.event_detail.success_request_new_message"),
+            });
 
-    // updateProfile(formData as any, {
-    //   onSuccess() {
-    //     toast({
-    //       title: t("components.profile_change_password.error_request_message"),
-    //     });
+            handleCloseModal();
+          },
+          onError(error) {
+            toast({
+              title: t("components.event_detail.error_request_new_message"),
+              status: "error",
+            });
+          },
+        }
+      );
 
-    //     handleCloseModal();
+      return;
+    }
 
-    //     // refetch();
-    //   },
-    //   onError(error) {
-    //     const { message } = responseErrorHandler(error);
+    createEvent(values, {
+      onSuccess() {
+        toast({
+          title: t("components.event_detail.success_request_edit_message"),
+        });
 
-    //     if (message === USERNAME_ALREADY_USED.message) {
-    //       actions.setErrors({
-    //         username: t("components.profile.input_username_already_used"),
-    //       });
-    //     }
+        handleCloseModal();
+      },
+      onError(error) {
+        toast({
+          title: t("components.event_detail.error_request_edit_message"),
+          status: "error",
+        });
+      },
+    });
+  };
 
-    //     if (message === EMAIL_ALREADY_USED.message) {
-    //       actions.setErrors({
-    //         email: t("components.profile.input_email_already_used"),
-    //       });
-    //     }
+  const handleDeleteEvent = () => {
+    console.log("delete");
 
-    //     toast({
-    //       title: t("components.profile_change_password.error_request_message"),
-    //       status: "error",
-    //     });
-    //   },
-    // });
+    if (!id) return;
+
+    deleteEvent(
+      { id },
+      {
+        onSuccess() {
+          toast({
+            title: t("components.event_detail.success_request_delete_message"),
+          });
+
+          handleCloseModal();
+        },
+        onError(error) {
+          toast({
+            title: t("components.event_detail.error_request_delete_message"),
+            status: "error",
+          });
+        },
+      }
+    );
+  };
+
+  const DeleteEventButton = () => {
+    if (!id) return <></>;
+
+    return (
+      <DeleteButtonContainer>
+        <Popover
+          title={t("generic.attention_message")}
+          description={t("components.event_detail.delete_event_message")}
+          rightActionButtonText={t("generic.button_yes")}
+          leftActionButtonText={t("generic.button_no")}
+          rightActionButtonAction={handleDeleteEvent}
+        >
+          <Button
+            colorScheme="red"
+            marginEnd={"2"}
+            isLoading={isUpdateLoading ?? isDeleteLoading}
+          >
+            {t("generic.button_delete")}
+          </Button>
+        </Popover>
+      </DeleteButtonContainer>
+    );
   };
 
   return (
     <Drawer
       title={
         id
-          ? t("components.event_detail.page_edit_tile")
-          : t("components.event_detail.page_new_tile")
+          ? t("components.event_detail.page_edit_title")
+          : t("components.event_detail.page_new_title")
       }
       onConfirm={() => formRef.current?.handleSubmit()}
       isOpen={isOpen}
       onClose={handleCloseModal}
+      extraActionButton={<DeleteEventButton />}
+      onConfirmLoading={isCreateLoading ?? isUpdateLoading ?? isDeleteLoading}
     >
-      <Preloader isLoading={false}>
+      <Preloader isLoading={isGetByIdLoading}>
         <Formik
           innerRef={formRef}
           initialValues={initialFormValues}
@@ -135,12 +207,12 @@ export const EventDetail = () => {
                     <FormLabel mt="2" mb="0.2">
                       {t("components.event_detail.input_start_date")}
                     </FormLabel>
-                      <DatePicker
-                        {...field}
-                        selected={field.value}
-                        onChange={(date) => setFieldValue("start", date)}
-                        timeCaption=""
-                      />
+                    <DatePicker
+                      {...field}
+                      selected={field.value}
+                      onChange={(date) => setFieldValue("start", date)}
+                      timeCaption=""
+                    />
                   </FormControl>
                 )}
               </Field>
@@ -150,12 +222,12 @@ export const EventDetail = () => {
                     <FormLabel mt="2" mb="0.2">
                       {t("components.event_detail.input_end_date")}
                     </FormLabel>
-                      <DatePicker
-                        {...field}
-                        selected={field.value}
-                        onChange={(date) => setFieldValue("end", date)}
-                        timeCaption=""
-                      />
+                    <DatePicker
+                      {...field}
+                      selected={field.value}
+                      onChange={(date) => setFieldValue("end", date)}
+                      timeCaption=""
+                    />
                   </FormControl>
                 )}
               </Field>
