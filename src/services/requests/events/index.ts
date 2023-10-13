@@ -10,7 +10,7 @@ import {
 } from "./apiRequests";
 import { AgendaListPayload, GetEventByIdPayload } from "./types";
 
-const { LIST, GET } = EndPoints.AGENDA;
+const { LIST, GET } = EndPoints.EVENTS;
 
 // ===== MUTATES ===== //
 export const useCreateEvent = () => {
@@ -33,13 +33,17 @@ export const useDeleteEvent = () => {
 
 // ===== QUERIES ===== //
 export const useGetAgendaList = (params: AgendaListPayload) => {
+  if (params.view_type) delete params.view_type;
+  
   const getQueryKey = () => [LIST, params];
 
   const { data, refetch, isLoading, error } = useQuery(getQueryKey(), () =>
     getAgendaList(params)
   );
 
-  return { getQueryKey, refetch, data, isLoading, error };
+  const convertedData = data?.events.map((e) => ({...e, start: new Date(e.start), end: new Date(e.end)})) ?? [];
+
+  return { getQueryKey, refetch, data: convertedData, isLoading, error };
 };
 
 export const useGetEventById = (params: GetEventByIdPayload) => {

@@ -15,11 +15,11 @@ export const EndPoints = {
   PERMISSIONS: {
     LIST: "/permissions"
   },
-  AGENDA: {
-    LIST: "/agenda",
-    GET: "/agenda/:id",
-    CREATE: "/agenda",
-    UPDATE: "/agenda/:id",
-    DELETE: "/agenda/:id",
+  EVENTS: {
+    LIST: "/events",
+    GET: "/events/:id",
+    CREATE: "/events",
+    UPDATE: "/events/:id",
+    DELETE: "/events/:id",
   }
 }

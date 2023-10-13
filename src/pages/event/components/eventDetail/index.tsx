@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import { formValidate } from "./helper/formValidate";
-import { FormProps } from "./types";
-import { agendaDetailPageStore } from "../../../../store/agendaDetailPage";
+import { FormProps, Props } from "./types";
+import { eventDetailPageStore } from "../../../../store/eventDetailPage";
 import { Drawer } from "../../../../components/drawer";
 import { Preloader } from "../../../../components/preloader";
 import { DatePicker } from "../../../../components/datePicker";
@@ -25,11 +25,12 @@ import {
 import { DeleteButtonContainer } from "./styles";
 import { Popover } from "../../../../components/popover";
 
-export const EventDetail = () => {
+export const EventDetail = (props: Props) => {
+  const { refetchList } = props;
   const { t } = useTranslation();
   const validateFormFields = formValidate();
   const toast = useToast();
-  const { id, start, end, isOpen, closeDetail } = agendaDetailPageStore();
+  const { id, start, end, isOpen, closeDetail } = eventDetailPageStore();
   const { data, error, isLoading: isGetByIdLoading } = useGetEventById({ id });
   const { createEvent, isLoading: isCreateLoading } = useCreateEvent();
   const { updateEvent, isLoading: isUpdateLoading } = useUpdateEvent();
@@ -70,6 +71,7 @@ export const EventDetail = () => {
             });
 
             handleCloseModal();
+            refetchList();
           },
           onError(error) {
             toast({
@@ -90,6 +92,7 @@ export const EventDetail = () => {
         });
 
         handleCloseModal();
+        refetchList();
       },
       onError(error) {
         toast({

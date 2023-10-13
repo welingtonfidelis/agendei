@@ -10,7 +10,7 @@ import {
   UpdateEventPayload,
 } from "./types";
 
-const { LIST, GET, CREATE, UPDATE, DELETE } = EndPoints.AGENDA;
+const { LIST, GET, CREATE, UPDATE, DELETE } = EndPoints.EVENTS;
 
 export const getAgendaList = async (params: AgendaListPayload) => {
   const { data: response } = await RestRequestService.get<AgendaListResponse>(

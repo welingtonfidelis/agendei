@@ -2,7 +2,7 @@ import { LayoutWithDrawerMenu } from "./components/layouts/layoutWithDrawerMenu"
 import { GuestLayout } from "./components/layouts/guestLayout";
 import { ApplicationPermissions } from "./shared/enum/applicationPermissions";
 import { ApplicationRoutes } from "./shared/enum/applicationRoutes";
-import { Agenda } from "./pages/agenda";
+import { Event } from "./pages/event";
 import { Login } from "./pages/login";
 import { ResetPassword } from "./pages/resetPassword";
 import { UserList } from "./pages/userList";
@@ -14,7 +14,7 @@ const {
   ROOT,
   RESET_PASSWORD,
   UPDATE_RESETED_PASSWORD,
-  AGENDA,
+  EVENT,
   USER_LIST,
   USER_EDIT,
   USER_NEW,
@@ -48,8 +48,8 @@ export const routes = [
   },
   {
     label: "pages.agenda.page_title",
-    path: AGENDA,
-    element: Agenda,
+    path: EVENT,
+    element: Event,
     layout: LayoutWithDrawerMenu,
     isMenuOption: true,
     permissions: [ADMIN, MANAGER, USER],

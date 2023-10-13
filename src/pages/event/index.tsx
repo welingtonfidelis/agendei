@@ -1,20 +1,21 @@
 import { Container } from "./styles";
 import { AgendaCalendar } from "../../components/agendaCalendar";
 import { AgendaEvent, AgendaEventEmpty } from "../../domains/agendaEvent";
-import { agendaPageStore } from "../../store/agendaListPage";
+import { eventPageStore } from "../../store/eventListPage";
 import { useToast } from "@chakra-ui/react";
 import { useGetAgendaList } from "../../services/requests/events";
 import { EventDetail } from "./components/eventDetail";
-import { agendaDetailPageStore } from "../../store/agendaDetailPage";
+import { eventDetailPageStore } from "../../store/eventDetailPage";
 import { useTranslation } from "react-i18next";
 import { Preloader } from "../../components/preloader";
 
-export const Agenda = () => {
-  const { filters, updateRangeDate } = agendaPageStore();
-  const { openDetail } = agendaDetailPageStore();
+export const Event = () => {
+  const { filters, updateRangeDate } = eventPageStore();
+  console.log('filters :', filters);
+  const { openDetail } = eventDetailPageStore();
   const toast = useToast();
   const { t } = useTranslation();
-  const { data, isLoading, error } = useGetAgendaList(filters);
+  const { data, isLoading, error, refetch } = useGetAgendaList(filters);
 
   if (error) {
     toast({
@@ -39,17 +40,18 @@ export const Agenda = () => {
 
   return (
     <Container>
-      <Preloader isLoading={isLoading}>
+      {/* <Preloader isLoading={isLoading}> */}
         <AgendaCalendar
-          events={data?.agenda ?? []}
+          events={data}
+          defaultView={'week'}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
-          defaultDate={new Date()}
           onRangeChange={updateRangeDate}
+          // onViewChange={updateViewType}
         />
 
-        <EventDetail />
-      </Preloader>
+        <EventDetail refetchList={refetch}/>
+      {/* </Preloader> */}
     </Container>
   );
 };

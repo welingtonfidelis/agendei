@@ -1,6 +1,7 @@
 export const FiltersType = {
   START_DATE: 'start_date',
   END_DATE: 'end_date',
+  VIEW_TYPE: 'view_type'
 }
 
 export type State = {

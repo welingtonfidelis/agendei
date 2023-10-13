@@ -12,7 +12,7 @@ const initiaState = {
   end: today,
 };
 
-export const agendaDetailPageStore = create<State & Action>((set) => ({
+export const eventDetailPageStore = create<State & Action>((set) => ({
   ...initiaState,
 
   openDetail: (data) => {

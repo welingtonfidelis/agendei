@@ -6,12 +6,12 @@ import { isArray } from "lodash";
 const initiaState = {
   filters: {
     start_date: startOfWeek(new Date()),
-    default_date: endOfWeek(new Date()),
+    end_date: endOfWeek(new Date()),
   },
   filtersType: FiltersType,
 };
 
-export const agendaPageStore = create<State & Action>((set) => ({
+export const eventPageStore = create<State & Action>((set) => ({
   ...initiaState,
 
   updateRangeDate: (data) => {
@@ -27,7 +27,10 @@ export const agendaPageStore = create<State & Action>((set) => ({
       }
 
       const { start, end } = data;
-      return { ...state, filters: { start_date: start, end_date: end } };
+      return {
+        ...state,
+        filters: { start_date: start, end_date: end },
+      };
     });
   },
 }));

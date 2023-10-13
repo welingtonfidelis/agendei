@@ -28,7 +28,7 @@ import { useLogin } from "../../services/requests/user";
 import { responseErrorHandler } from "../../shared/handlers/responseError";
 import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
 
-const { RESET_PASSWORD, AGENDA } = ApplicationRoutes;
+const { RESET_PASSWORD, EVENT } = ApplicationRoutes;
 const { INVALID_USERNAME_OR_EMAIL, INVALID_PASSWORD } = HttpServerMessageEnum;
 
 const initialFormValues = {
@@ -52,7 +52,7 @@ export const Login = () => {
       onSuccess(data) {
         if (data) {
           updateUser(data);
-          navigate(AGENDA);
+          navigate(EVENT);
         }
       },
       onError(error) {

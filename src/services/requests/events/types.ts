@@ -1,9 +1,11 @@
+import { View } from "react-big-calendar";
 import { AgendaEvent } from "../../../domains/agendaEvent";
 
 // Request
 export interface AgendaListPayload {
   start_date: Date;
   end_date?: Date;
+  view_type?: View;
 }
 
 export interface GetEventByIdPayload {
@@ -34,7 +36,7 @@ export interface DeleteEventPayload {
 // Response
 export interface AgendaListResponse {
   total: number;
-  agenda: AgendaEvent[];
+  events: AgendaEvent[];
 }
 
 export interface GetEventResponse extends AgendaEvent {}
