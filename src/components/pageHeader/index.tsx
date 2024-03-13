@@ -82,7 +82,7 @@ export const PageHeader = (props: Props) => {
               size={"sm"}
             />
           </MenuButton>
-          <MenuList>
+          <MenuList zIndex={99}>
             <MenuItem onClick={onOpenProfile}>
               {t("components.page_header.menu_item_profile")}
             </MenuItem>
